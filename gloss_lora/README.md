@@ -1,208 +1,88 @@
----
-base_model: unsloth/meta-llama-3.1-8b-bnb-4bit
-library_name: peft
-pipeline_tag: text-generation
-tags:
-- base_model:adapter:unsloth/meta-llama-3.1-8b-bnb-4bit
-- lora
-- transformers
-- unsloth
----
+\# Gloss LoRA Adapter
 
-# Model Card for Model ID
 
-<!-- Provide a quick summary of what the model is/does. -->
 
+\## Description
 
 
-## Model Details
 
-### Model Description
+This folder contains the LoRA adapter fine-tuned for Arabic-to-Gloss translation.
 
-<!-- Provide a longer summary of what this model is. -->
 
 
+The adapter is applied on top of the AraT5 base model.
 
-- **Developed by:** [More Information Needed]
-- **Funded by [optional]:** [More Information Needed]
-- **Shared by [optional]:** [More Information Needed]
-- **Model type:** [More Information Needed]
-- **Language(s) (NLP):** [More Information Needed]
-- **License:** [More Information Needed]
-- **Finetuned from model [optional]:** [More Information Needed]
 
-### Model Sources [optional]
 
-<!-- Provide the basic links for the model. -->
+\---
 
-- **Repository:** [More Information Needed]
-- **Paper [optional]:** [More Information Needed]
-- **Demo [optional]:** [More Information Needed]
 
-## Uses
 
-<!-- Address questions around how the model is intended to be used, including the foreseeable users of the model and those affected by the model. -->
+\## Model Information
 
-### Direct Use
 
-<!-- This section is for the model use without fine-tuning or plugging into a larger ecosystem/app. -->
 
-[More Information Needed]
+| Item       | Value                       |
 
-### Downstream Use [optional]
+| ---------- | --------------------------- |
 
-<!-- This section is for the model use when fine-tuned for a task, or when plugged into a larger ecosystem/app -->
+| Method     | LoRA Fine-Tuning            |
 
-[More Information Needed]
+| Task       | Arabic to Gloss Translation |
 
-### Out-of-Scope Use
+| Base Model | AraT5v2-base-1024           |
 
-<!-- This section addresses misuse, malicious use, and uses that the model will not work well for. -->
 
-[More Information Needed]
 
-## Bias, Risks, and Limitations
+\---
 
-<!-- This section is meant to convey both technical and sociotechnical limitations. -->
 
-[More Information Needed]
 
-### Recommendations
+\## Files
 
-<!-- This section is meant to convey recommendations with respect to the bias, risk, and technical limitations. -->
 
-Users (both direct and downstream) should be made aware of the risks, biases and limitations of the model. More information needed for further recommendations.
 
-## How to Get Started with the Model
+\* adapter\_model.safetensors
 
-Use the code below to get started with the model.
+\* adapter\_config.json
 
-[More Information Needed]
+\* tokenizer.json
 
-## Training Details
+\* tokenizer\_config.json
 
-### Training Data
+\* special\_tokens\_map.json
 
-<!-- This should link to a Dataset Card, perhaps with a short stub of information on what the training data is all about as well as documentation related to data pre-processing or additional filtering. -->
 
-[More Information Needed]
 
-### Training Procedure
+\---
 
-<!-- This relates heavily to the Technical Specifications. Content here should link to that section when it is relevant to the training procedure. -->
 
-#### Preprocessing [optional]
 
-[More Information Needed]
+\## Usage
 
 
-#### Training Hyperparameters
 
-- **Training regime:** [More Information Needed] <!--fp32, fp16 mixed precision, bf16 mixed precision, bf16 non-mixed precision, fp16 non-mixed precision, fp8 mixed precision -->
+```python
 
-#### Speeds, Sizes, Times [optional]
+from transformers import AutoModelForSeq2SeqLM
 
-<!-- This section provides information about throughput, start/end time, checkpoint size if relevant, etc. -->
+from peft import PeftModel
 
-[More Information Needed]
 
-## Evaluation
 
-<!-- This section describes the evaluation protocols and provides the results. -->
+base\_model = AutoModelForSeq2SeqLM.from\_pretrained("AraT5")
 
-### Testing Data, Factors & Metrics
 
-#### Testing Data
 
-<!-- This should link to a Dataset Card if possible. -->
+model = PeftModel.from\_pretrained(
 
-[More Information Needed]
+&#x20;   base\_model,
 
-#### Factors
+&#x20;   "gloss\_lora"
 
-<!-- These are the things the evaluation is disaggregating by, e.g., subpopulations or domains. -->
+)
 
-[More Information Needed]
+```
 
-#### Metrics
 
-<!-- These are the evaluation metrics being used, ideally with a description of why. -->
 
-[More Information Needed]
-
-### Results
-
-[More Information Needed]
-
-#### Summary
-
-
-
-## Model Examination [optional]
-
-<!-- Relevant interpretability work for the model goes here -->
-
-[More Information Needed]
-
-## Environmental Impact
-
-<!-- Total emissions (in grams of CO2eq) and additional considerations, such as electricity usage, go here. Edit the suggested text below accordingly -->
-
-Carbon emissions can be estimated using the [Machine Learning Impact calculator](https://mlco2.github.io/impact#compute) presented in [Lacoste et al. (2019)](https://arxiv.org/abs/1910.09700).
-
-- **Hardware Type:** [More Information Needed]
-- **Hours used:** [More Information Needed]
-- **Cloud Provider:** [More Information Needed]
-- **Compute Region:** [More Information Needed]
-- **Carbon Emitted:** [More Information Needed]
-
-## Technical Specifications [optional]
-
-### Model Architecture and Objective
-
-[More Information Needed]
-
-### Compute Infrastructure
-
-[More Information Needed]
-
-#### Hardware
-
-[More Information Needed]
-
-#### Software
-
-[More Information Needed]
-
-## Citation [optional]
-
-<!-- If there is a paper or blog post introducing the model, the APA and Bibtex information for that should go in this section. -->
-
-**BibTeX:**
-
-[More Information Needed]
-
-**APA:**
-
-[More Information Needed]
-
-## Glossary [optional]
-
-<!-- If relevant, include terms and calculations in this section that can help readers understand the model or model card. -->
-
-[More Information Needed]
-
-## More Information [optional]
-
-[More Information Needed]
-
-## Model Card Authors [optional]
-
-[More Information Needed]
-
-## Model Card Contact
-
-[More Information Needed]
-### Framework versions
-
-- PEFT 0.18.0
